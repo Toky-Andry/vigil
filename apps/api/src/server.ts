@@ -1,7 +1,9 @@
 import Fastify from "fastify";
+import cors from "@fastify/cors";
 import { config } from "./config.js";
 import { pool } from "./db.js";
 import { ingestRoutes } from "./routes/ingest.js";
+import { serverRoutes } from "./routes/servers.js";
 
 const app = Fastify({ logger: true, bodyLimit: 16 * 1024 });
 
@@ -14,7 +16,12 @@ app.get("/health", async (_req, reply) => {
   }
 });
 
+await app.register(cors, {
+  origin: config.CORS_ORIGINS.split(",").map((o) => o.trim()),
+});
+
 await app.register(ingestRoutes, { prefix: "/api/v1" });
+await app.register(serverRoutes, { prefix: "/api/v1" });
 
 const close = async () => {
   await app.close();
