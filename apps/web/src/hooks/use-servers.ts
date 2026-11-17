@@ -1,33 +1,13 @@
 "use client";
 
-import { useEffect, useState } from "react";
-import { fetchServers, type ServerSummary } from "@/lib/api";
-
-const REFRESH_MS = 5_000;
+import { useCallback } from "react";
+import { useLiveCount } from "@/hooks/use-live-count";
+import { FALLBACK_POLL_MS, usePolling } from "@/hooks/use-polling";
+import { fetchServers } from "@/lib/api";
 
 export function useServers() {
-  const [servers, setServers] = useState<ServerSummary[] | null>(null);
-  const [error, setError] = useState<string | null>(null);
-
-  useEffect(() => {
-    const controller = new AbortController();
-
-    async function load() {
-      try {
-        setServers(await fetchServers(controller.signal));
-        setError(null);
-      } catch (e) {
-        if (!controller.signal.aborted) setError((e as Error).message);
-      }
-    }
-
-    void load();
-    const timer = setInterval(load, REFRESH_MS);
-    return () => {
-      controller.abort();
-      clearInterval(timer);
-    };
-  }, []);
-
-  return { servers, error };
+  const live = useLiveCount("metric", "incident");
+  const fetcher = useCallback((signal: AbortSignal) => fetchServers(signal), []);
+  const { data, error } = usePolling(fetcher, FALLBACK_POLL_MS, live);
+  return { servers: data, error };
 }
