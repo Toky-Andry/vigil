@@ -2,6 +2,7 @@ import type { FastifyInstance } from "fastify";
 import { z } from "zod";
 import { pool } from "../db.js";
 import { hashKey } from "../apiKey.js";
+import { publish } from "../events/bus.js";
 
 const Body = z.object({
   ts: z.coerce.date().optional(),
@@ -62,7 +63,7 @@ export async function ingestRoutes(app: FastifyInstance) {
     await pool.query("UPDATE servers SET last_seen_at = now() WHERE id = $1", [
       serverId,
     ]);
-
+        publish({ type: "metric", server_id: serverId });
     return reply.code(202).send({ ok: true });
   });
 }

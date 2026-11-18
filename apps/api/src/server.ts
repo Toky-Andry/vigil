@@ -1,9 +1,13 @@
 import Fastify from "fastify";
 import cors from "@fastify/cors";
-import { config } from "./config.js";
+import websocket from "@fastify/websocket";
+import { startAlertEngine } from "./alerts/scheduler.js";
+import { config, corsOrigins } from "./config.js";
 import { pool } from "./db.js";
+import { incidentRoutes } from "./routes/incidents.js";
 import { ingestRoutes } from "./routes/ingest.js";
 import { serverRoutes } from "./routes/servers.js";
+import { streamRoutes } from "./routes/stream.js";
 
 const app = Fastify({ logger: true, bodyLimit: 16 * 1024 });
 
@@ -16,14 +20,18 @@ app.get("/health", async (_req, reply) => {
   }
 });
 
-await app.register(cors, {
-  origin: config.CORS_ORIGINS.split(",").map((o) => o.trim()),
-});
+await app.register(cors, { origin: corsOrigins });
+await app.register(websocket);
 
 await app.register(ingestRoutes, { prefix: "/api/v1" });
 await app.register(serverRoutes, { prefix: "/api/v1" });
+await app.register(incidentRoutes, { prefix: "/api/v1" });
+await app.register(streamRoutes);
+
+const stopAlerts = startAlertEngine(app.log);
 
 const close = async () => {
+  stopAlerts();
   await app.close();
   await pool.end();
   process.exit(0);
