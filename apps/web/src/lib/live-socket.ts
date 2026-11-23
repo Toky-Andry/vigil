@@ -11,6 +11,7 @@ let socket: WebSocket | null = null;
 let retryTimer: ReturnType<typeof setTimeout> | undefined;
 let attempt = 0;
 let hasConnected = false;
+let connected = false;
 
 const notify = () => listeners.forEach((l) => l());
 
@@ -32,13 +33,17 @@ function connect() {
   socket = new WebSocket(WS_URL);
   socket.onopen = () => {
     attempt = 0;
+    connected = true;
     // Après une coupure, des événements ont pu être manqués : on resynchronise.
     if (hasConnected) bump(["metric", "incident"]);
     hasConnected = true;
+    notify();
   };
   socket.onmessage = onMessage;
   socket.onclose = () => {
     socket = null;
+    connected = false;
+    notify();
     if (listeners.size === 0) return;
     retryTimer = setTimeout(connect, Math.min(MAX_DELAY_MS, 1000 * 2 ** attempt++));
   };
@@ -57,3 +62,4 @@ export function subscribeLive(listener: () => void): () => void {
 }
 
 export const getCount = (topic: Topic) => counters[topic];
+export const getConnected = () => connected;

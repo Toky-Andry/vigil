@@ -10,7 +10,7 @@ async function Content({ params }: Props) {
 
 export default function ServerPage({ params }: Props) {
   return (
-    <main className="mx-auto max-w-6xl p-6">
+    <main className="w-full max-w-7xl p-6">
       <Suspense fallback={<p className="text-sm text-muted">Chargement…</p>}>
         <Content params={params} />
       </Suspense>

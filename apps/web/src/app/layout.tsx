@@ -1,7 +1,6 @@
 import type { Metadata } from "next";
 import { Inter, JetBrains_Mono } from "next/font/google";
-import { Suspense } from "react";
-import { Nav } from "@/components/nav";
+import { AppShell } from "@/components/shell/app-shell";
 import "./globals.css";
 
 const inter = Inter({ variable: "--font-inter", subsets: ["latin"] });
@@ -15,11 +14,8 @@ export const metadata: Metadata = {
 export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
     <html lang="fr" className={`${inter.variable} ${jetbrains.variable}`}>
-      <body className="min-h-screen bg-bg font-sans text-text antialiased">
-        <Suspense fallback={null}>
-          <Nav />
-        </Suspense>
-        {children}
+      <body className="bg-bg font-sans text-text antialiased">
+        <AppShell>{children}</AppShell>
       </body>
     </html>
   );
