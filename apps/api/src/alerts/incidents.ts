@@ -3,7 +3,7 @@ import { publish } from "../events/bus.js";
 
 export type NewIncident = {
   serverId: string;
-  method: "static" | "heartbeat";
+  method: "static" | "heartbeat" | "ewma" | "iforest";
   metric: string | null;
   severity: string;
   message: string;

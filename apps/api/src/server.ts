@@ -8,6 +8,7 @@ import { incidentRoutes } from "./routes/incidents.js";
 import { ingestRoutes } from "./routes/ingest.js";
 import { serverRoutes } from "./routes/servers.js";
 import { streamRoutes } from "./routes/stream.js";
+import { internalRoutes } from "./routes/internal.js";
 
 const app = Fastify({ logger: true, bodyLimit: 16 * 1024 });
 
@@ -27,6 +28,7 @@ await app.register(ingestRoutes, { prefix: "/api/v1" });
 await app.register(serverRoutes, { prefix: "/api/v1" });
 await app.register(incidentRoutes, { prefix: "/api/v1" });
 await app.register(streamRoutes);
+await app.register(internalRoutes, { prefix: "/internal/v1" });
 
 const stopAlerts = startAlertEngine(app.log);
 

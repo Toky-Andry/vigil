@@ -5,6 +5,7 @@ const schema = z.object({
   PORT: z.coerce.number().int().default(4000),
   HOST: z.string().default("0.0.0.0"),
   CORS_ORIGINS: z.string().default("http://localhost:3000,http://127.0.0.1:3000"),
+  VIGIL_INTERNAL_TOKEN: z.string().min(32).optional(),
 });
 
 export const config = schema.parse(process.env);
