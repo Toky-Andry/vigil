@@ -45,7 +45,7 @@ def main() -> None:
     end = max(dt(e["ended_at"]) for e in experiments)
     observed_days = max((end - start).total_seconds() / 86400, 1 / 1440)
     result = {}
-    for method in ("ewma", "iforest"):
+    for method in ("static", "ewma", "iforest"):
         method_events = [i for i in incidents if i["method"] == method]
         matched: dict[int, list[dict]] = defaultdict(list)
         false_events = []

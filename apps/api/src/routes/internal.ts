@@ -111,7 +111,7 @@ export async function internalRoutes(app: FastifyInstance) {
       ),
       pool.query(
         `SELECT server_id, method, metric, detected_at, resolved_at, status
-         FROM incidents WHERE method IN ('ewma', 'iforest')
+         FROM incidents WHERE method IN ('static', 'ewma', 'iforest')
          ORDER BY detected_at`,
       ),
     ]);

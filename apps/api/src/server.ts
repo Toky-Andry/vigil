@@ -5,6 +5,7 @@ import { startAlertEngine } from "./alerts/scheduler.js";
 import { config, corsOrigins } from "./config.js";
 import { pool } from "./db.js";
 import { incidentRoutes } from "./routes/incidents.js";
+import { evaluationRoutes } from "./routes/evaluation.js";
 import { ingestRoutes } from "./routes/ingest.js";
 import { serverRoutes } from "./routes/servers.js";
 import { streamRoutes } from "./routes/stream.js";
@@ -27,6 +28,7 @@ await app.register(websocket);
 await app.register(ingestRoutes, { prefix: "/api/v1" });
 await app.register(serverRoutes, { prefix: "/api/v1" });
 await app.register(incidentRoutes, { prefix: "/api/v1" });
+await app.register(evaluationRoutes, { prefix: "/api/v1" });
 await app.register(streamRoutes);
 await app.register(internalRoutes, { prefix: "/internal/v1" });
 

@@ -80,7 +80,7 @@ services\anomaly\.venv\Scripts\python services\anomaly\evaluate.py
 services\anomaly\.venv\Scripts\python services\anomaly\evaluate.py --format json
 ```
 
-Le rappel est la part d'expériences avec au moins une détection pendant la fenêtre injectée. La précision événementielle compte les incidents détectés dans ces fenêtres parmi les incidents de la période expérimentale. Les fausses alertes par jour ne comptent que les incidents hors fenêtres, entre la première injection et la dernière fin. Le délai moyen est calculé pour la première alerte de chaque expérience détectée. Cette mesure événementielle est utile pour comparer les méthodes, mais ne remplace pas une évaluation point par point avec des étiquettes par mesure.
+Le rappel est la part d'expériences avec au moins une détection pendant la fenêtre injectée. La précision événementielle compte les incidents détectés dans ces fenêtres parmi les incidents de la période expérimentale. Les fausses alertes par jour ne comptent que les incidents hors fenêtres, entre la première injection et la dernière fin. Le délai moyen est calculé pour la première alerte de chaque expérience détectée. L'évaluation compare les seuils fixes, EWMA et Isolation Forest. Cette mesure événementielle est utile pour comparer les méthodes, mais ne remplace pas une évaluation point par point avec des étiquettes par mesure.
 
 Tests unitaires : `services\anomaly\.venv\Scripts\python -m unittest discover -s services\anomaly`.
 

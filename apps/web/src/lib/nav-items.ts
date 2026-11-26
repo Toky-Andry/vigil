@@ -20,7 +20,7 @@ export const NAV_ITEMS: NavItem[] = [
   { href: "/servers", label: "Servers", icon: Server, enabled: true },
   { href: "/alerts", label: "Alerts", icon: Bell, enabled: true },
   { href: "/incidents", label: "Incidents", icon: TriangleAlert, enabled: true },
-  { href: "/methods", label: "Detection methods", icon: FlaskConical, enabled: false },
+  { href: "/methods", label: "Detection methods", icon: FlaskConical, enabled: true },
   { href: "/settings", label: "Settings", icon: Settings, enabled: false },
 ];
 
