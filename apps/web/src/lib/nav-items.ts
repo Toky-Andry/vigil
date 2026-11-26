@@ -21,7 +21,7 @@ export const NAV_ITEMS: NavItem[] = [
   { href: "/alerts", label: "Alerts", icon: Bell, enabled: true },
   { href: "/incidents", label: "Incidents", icon: TriangleAlert, enabled: true },
   { href: "/methods", label: "Detection methods", icon: FlaskConical, enabled: true },
-  { href: "/settings", label: "Settings", icon: Settings, enabled: false },
+  { href: "/settings", label: "Settings", icon: Settings, enabled: true },
 ];
 
 export function isActive(href: string, pathname: string): boolean {
