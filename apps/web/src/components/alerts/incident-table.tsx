@@ -17,7 +17,11 @@ function Row({ incident: i }: { incident: Incident }) {
         </Link>
       </td>
       <td className="px-4 py-3 font-mono text-xs text-muted">{METHOD_LABELS[i.method]}</td>
-      <td className="px-4 py-3">{i.message ?? "—"}</td>
+      <td className="px-4 py-3">
+        <Link href={`/incidents/${i.id}`} className="hover:text-primary hover:underline">
+          {i.message ?? "Voir l’incident"}
+        </Link>
+      </td>
       <td className="px-4 py-3 text-muted" title={formatDateTime(detected)}>
         {formatRelative(i.detected_at)}
       </td>
